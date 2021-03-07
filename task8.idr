@@ -1,7 +1,7 @@
 %default total
 
 
--- a < b -> a ^ 2 < b ^ 2  - доказательство как в задании 7
+-- a <= b -> a ^ 2 <= b ^ 2  - доказательство как в задании 7
 ------------------------------------
 lteReflPrf : {a, b : Nat} -> a = b -> LTE a b
 lteReflPrf {a} {b} prf = replace {P = \e => Nat.LTE a e} prf (lteRefl {n = a})
@@ -36,7 +36,7 @@ lteMulLeft {c = (S k)} prf = lteAdd (prf) (lteMulLeft {c = k} prf)
 lteMulRight : {a, b, c : Nat} -> LTE a b -> LTE (a * c) (b * c)
 lteMulRight {a} {b} {c} x = lteReflRight (multCommutative c b) $ lteReflLeft (multCommutative c a) $ lteMulLeft {c=c} x
 
--- a * a < b * a < b * bs
+-- a * a <= b * a <= b * b
 lteSquare : {a, b : Nat} -> LTE a b -> LTE (a * a) (b * b)
 lteSquare {a} {b} prf = lteTransitive (lteMulRight {c = a} prf) (lteMulLeft {c = b} prf)
 ------------------------------------

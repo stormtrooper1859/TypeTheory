@@ -5,7 +5,7 @@ lteReflPrf : {a, b : Nat} -> a = b -> LTE a b
 lteReflPrf {a} {b} prf = replace {P = \e => Nat.LTE a e} prf (lteRefl {n = a})
 
 
--- a < b -> a ^ 2 < b ^ 2
+-- a <= b -> a ^ 2 <= b ^ 2
 
 lteReflLeft : {a, b, c: Nat} -> a=b -> LTE a c -> LTE b c
 lteReflLeft {c} prf x = replace {P = \e => LTE e c} prf x
@@ -36,19 +36,19 @@ lteMulLeft {c = (S k)} prf = lteAdd (prf) (lteMulLeft {c = k} prf)
 lteMulRight : {a, b, c : Nat} -> LTE a b -> LTE (a * c) (b * c)
 lteMulRight {a} {b} {c} x = lteReflRight (multCommutative c b) $ lteReflLeft (multCommutative c a) $ lteMulLeft {c=c} x
 
--- a * a < b * a < b * bs
+-- a * a <= b * a <= b * b
 lteSquare : {a, b : Nat} -> LTE a b -> LTE (a * a) (b * b)
 lteSquare {a} {b} prf = lteTransitive (lteMulRight {c = a} prf) (lteMulLeft {c = b} prf)
 
 
--- a < b -> a - b = 0
+-- a <= b -> a - b = 0
 
 lteSub : {a, b : Nat} -> LTE a b -> (minus a b) = Z
 lteSub LTEZero = Refl
 lteSub (LTESucc prf) = lteSub prf
 
 
--- a - b < a + b
+-- a - b <= a + b
 
 minus0plus0 : (a : Nat) -> (minus a 0) = (plus a 0)
 minus0plus0 Z = Refl
